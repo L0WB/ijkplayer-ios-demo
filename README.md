@@ -92,6 +92,8 @@ FF_ALL_ARCHS_IOS8_SDK="arm64 i386 x86_64"
 
 # 编译openssl，生成 `libcrypto.a` 和 `libssl.a`，如果不需要https可以跳过这一步
 ./compile-openssl.sh all
+# 或使用多线程加速编译
+./compile-openssl.sh all -j$(nproc)
 
 # 编译ffmpeg
 ./compile-ffmpeg.sh all
