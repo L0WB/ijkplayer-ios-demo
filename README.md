@@ -120,9 +120,18 @@ ijkplayer默认不支持https，如果需要支持则需要添加上面生成的
 ### 3.打包framework
 
 * 修改 `Build Configuration` 为 `Release`
-* 分别打包真机和模拟器framework
+* 分别打包真机和模拟器framework，注意新版的xcode现在不显示products目录了，可以在菜单 Product -> show build folder in finder 打开
 * 使用 `lipo -create` 合并真机和模拟器framework
   * `lipo -create 真机framework路径 模拟器framework路径 -o 合并的文件路径`
+  * 现代版本的xcode打包simulator的库，如果使用lipo -info查看会有一个arm64的架构，这个应该是m系列芯片的架构，但是lipo合并时候会报错，需要先把arm64从中剔除
+    ```
+    lipo -remove arm64 Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework -output Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework.stripped
+
+	lipo -create Release-iphoneos/IJKMediaFramework.framework/IJKMediaFramework \
+               Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework.stripped \
+               -output IJKMediaFramework
+
+    ```
 
 ## 三、使用
 
